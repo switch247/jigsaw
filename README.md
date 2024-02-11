@@ -10,6 +10,7 @@ This is a simple web-based jigsaw puzzle game where players can solve jigsaw puz
 
 ![puzzle-preview](Screenshots/jigsaw2.png)
 ![puzzle-preview](Screenshots/jigsaw1.png)
+![puzzle-preview](Screenshots/jigsaw3.png)
 
 ## Features
 
