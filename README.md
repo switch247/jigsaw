@@ -8,8 +8,8 @@ This is a simple web-based jigsaw puzzle game where players can solve jigsaw puz
 # [Puzzle-Game](http://)
 - Demo: https://commingsoon/
 
-![puzzle-preview](Screenshots/jigsaw1.png)
 ![puzzle-preview](Screenshots/jigsaw2.png)
+![puzzle-preview](Screenshots/jigsaw1.png)
 
 ## Features
 
