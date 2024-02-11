@@ -6,9 +6,10 @@
 This is a simple web-based jigsaw puzzle game where players can solve jigsaw puzzles by dragging and dropping pieces to form the complete image.
 
 # [Puzzle-Game](http://)
-- Demo: https://imkennyyip.github.io/Puzzle-Game/
+- Demo: https://commingsoon/
 
-![puzzle-preview](https://user-images.githubusercontent.com/78777681/163045424-30151af3-03e3-4290-90fd-feb8885f2311.png)
+![puzzle-preview](Screenshots/jigsaw1.png)
+![puzzle-preview](Screenshots/jigsaw2.png)
 
 ## Features
 
