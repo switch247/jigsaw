@@ -134,7 +134,7 @@ function dragEnd() {
         popup();
         // alert("You win!");
         level += 1;
-        if (level>=levelLimit) level=0;
+        if (level==levelLimit){level=0}
         resetGame();
     }
 
@@ -147,12 +147,14 @@ function checkWin() {
     let boardImages = document.getElementById("board").getElementsByTagName("img");
     for (let i = 0; i < boardImages.length; i++) {
         let expectedImg = "images/" + level + "/" + (i + 1) + ".jpg";
-        if (boardImages[i].src.split("/").slice(3).join('/')!== expectedImg.split("/").slice(1).join('/')) {
+        // console.log(boardImages[i].src.split("/").slice(4).join('/'), expectedImg.split("/").slice(1).join('/') );
+        if (boardImages[i].src.split("/").slice(4).join('/')!== expectedImg.split("/").slice(1).join('/')) {
             // console.log(boardImages[i].src.split("/").slice(3).join('/'), expectedImg.split("/").slice(1).join('/'))
+            console.log("no")
             return false;
         }
     }
-    // console.log('yes')
+    console.log('yes')
     return true;
 }
 
@@ -177,10 +179,28 @@ function removeAllChildren(element) {
 }
 
 
+// const fs = require('fs');
+// const path = require('path');
+
+// async function getFileCount(folderPath) {
+//   return new Promise((resolve, reject) => {
+//     fs.readdir(folderPath, (err, files) => {
+//       if (err) {
+//         reject(err);
+//       } else {
+//         resolve(files.length);
+//       }
+//     });
+//   });
+// }
+
+
 async function findGrid(level) {
     const folderPath = `./images/${level}`; // Replace with the actual folder path
 
     try {
+        
+        // const response = await getFileCount(folderPath);
         const response = await fetch(folderPath);
         const data = await response.text();
         const parser = new DOMParser();
@@ -188,6 +208,12 @@ async function findGrid(level) {
         const files = Array.from(htmlDoc.querySelectorAll('a')).map(a => a.getAttribute('href'));
 
         const imageFiles = files.filter(file => file.endsWith('.jpg') || file.endsWith('.png') || file.endsWith('.gif'));
+
+        // const folder = await getFolder(folderPath);
+        // const files = await getFilesFromFolder(folder);
+        // const imageFiles = files.filter(file => file.name.endsWith('.jpg') || file.name.endsWith('.png') || file.name.endsWith('.gif'));
+
+
 
         const columns = Math.sqrt(imageFiles.length);
         const rows = Math.sqrt(imageFiles.length);
@@ -209,3 +235,7 @@ async function findGrid(level) {
 function popup(){
     swal("Good Job", "You Cleared The Level!","success");
 }
+
+
+
+
