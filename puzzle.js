@@ -178,7 +178,7 @@ function removeAllChildren(element) {
 
 
 async function findGrid(level) {
-    const folderPath = `/images/${level}`; // Replace with the actual folder path
+    const folderPath = `./images/${level}`; // Replace with the actual folder path
 
     try {
         const response = await fetch(folderPath);
