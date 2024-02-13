@@ -27,7 +27,7 @@ async function initBoard() {
         for (let c = 0; c < columns; c++) {
             //<img>
             let tile = document.createElement("img");
-            tile.src = "./images/blank.jpg";
+            tile.src = "images/blank.jpg";
 
             //DRAG FUNCTIONALITY
             tile.addEventListener("dragstart", dragStart); //click on image to drag
@@ -57,7 +57,7 @@ function fillPiece(pieces) {
 
     for (let i = 0; i < pieces.length; i++) {
         let tile = document.createElement("img");
-        tile.src = "./images/"+ level+"/" + pieces[i] + ".jpg";
+        tile.src = "images/"+ level+"/" + pieces[i] + ".jpg";
 
         //DRAG FUNCTIONALITY
         tile.addEventListener("dragstart", dragStart); //click on image to drag
@@ -145,7 +145,7 @@ function dragEnd() {
 function checkWin() {
     let boardImages = document.getElementById("board").getElementsByTagName("img");
     for (let i = 0; i < boardImages.length; i++) {
-        let expectedImg = "./images/" + level + "/" + (i + 1) + ".jpg";
+        let expectedImg = "images/" + level + "/" + (i + 1) + ".jpg";
         if (boardImages[i].src.split("/").slice(3).join('/')!== expectedImg.split("/").slice(1).join('/')) {
             // console.log(boardImages[i].src.split("/").slice(3).join('/'), expectedImg.split("/").slice(1).join('/'))
             return false;
@@ -177,7 +177,7 @@ function removeAllChildren(element) {
 
 
 async function findGrid(level) {
-    const folderPath = `/images/${level}`; // Replace with the actual folder path
+    const folderPath = `images/${level}`; // Replace with the actual folder path
 
     try {
         const response = await fetch(folderPath);
