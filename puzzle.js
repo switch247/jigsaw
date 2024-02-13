@@ -4,7 +4,7 @@ var columns;
 let pieces ;
 
 var level = 0;
-
+const levelLimit = 3;
 var currTile;
 var otherTile;
 
@@ -134,6 +134,7 @@ function dragEnd() {
         popup();
         // alert("You win!");
         level += 1;
+        if (level>=levelLimit) level=0;
         resetGame();
     }
 
@@ -177,7 +178,7 @@ function removeAllChildren(element) {
 
 
 async function findGrid(level) {
-    const folderPath = `images/${level}`; // Replace with the actual folder path
+    const folderPath = `/images/${level}`; // Replace with the actual folder path
 
     try {
         const response = await fetch(folderPath);
