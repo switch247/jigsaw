@@ -7,7 +7,7 @@ var level = 0;
 const levelLimit = 3;
 var currTile;
 var otherTile;
-
+var images = [];
 var turns = 0;
 
 const lev = document.getElementById("level");
@@ -30,15 +30,16 @@ window.onload = async function() {
 
 
 async function initBoard() {
-     currTile =null;
-     otherTile = null;
+    levelimage();
+    currTile =null;
+    otherTile = null;
     rotationAngles = {};
     lev.innerHTML=level;
     const gridInfo = await findGrid(level);
     rows = gridInfo.rows;
     columns = gridInfo.columns;
     // console.log(rows, columns);
-    var images = [];
+    images = [];
     //initialize the rxc board
     for (let r = 0; r < rows; r++) {
         for (let c = 0; c < columns; c++) {
@@ -150,6 +151,20 @@ function shufflePiece(pieces) {
     }
 }
 
+function unShufflePiece(pieces) {
+    
+    pieces.sort((a, b) => Number(a) - Number(b));
+    
+}
+
+function clickImagesRandomly() {
+    images.forEach((image) => {
+      const randomClicks = Math.floor(Math.random() * 4); // Generate a random number between 0 and 3
+      for (let i = 0; i < randomClicks; i++) {
+        image.dispatchEvent(new Event('dblclick')); // Simulate a double-click event
+      }
+    });
+  }
 
 // 1 6  11 16 21
 // 2 7  12 17 22
@@ -345,5 +360,134 @@ function popup(){
 }
 
 
+function clearBoard(){
+    removeAllChildren( document.getElementById("board"));
+    images = [];
+    //initialize the rxc board
+    for (let r = 0; r < rows; r++) {
+        for (let c = 0; c < columns; c++) {
+            //<img>
+            let tile = document.createElement("img");
+            tile.src = "images/blank.jpg";
+            images.push(tile);
+            //DRAG FUNCTIONALITY
+            tile.addEventListener("dragstart", dragStart); //click on image to drag
+            tile.addEventListener("dragover", dragOver);   //drag an image
+            tile.addEventListener("dragenter", dragEnter); //dragging an image into another one
+            tile.addEventListener("dragleave", dragLeave); //dragging an image away from another one
+            tile.addEventListener("drop", dragDrop);       //drop an image onto another one
+            tile.addEventListener("dragend", dragEnd);      //after you completed dragDrop
+
+            document.getElementById("board").append(tile);
+        }
+    }
+
+    images.forEach((image, index) => {
+        const imageId = `image_${index}`;
+        rotationAngles[imageId] = 0;
+        image.setAttribute('data-image-id', imageId);
+        image.addEventListener('dblclick', rotateImage);
+      });
+
+}
 
 
+// dificulty adjester
+
+
+const difficultySelect = document.getElementById('difficulty-select');
+
+difficultySelect.addEventListener('change', handleDifficultyChange);
+
+function handleDifficultyChange(event) {
+  const selectedDifficulty = event.target.value;
+  
+  if (selectedDifficulty === 'easy') {
+    turns=0;
+    document.getElementById("turns").innerText = turns;
+
+    clearBoard();
+    console.log('Easy difficulty chosen');
+    removeAllChildren( document.getElementById("pieces"));
+    
+    unShufflePiece(pieces);
+    console.log(pieces)
+    fillPiece(pieces);
+    // Perform actions specific to the easy difficulty level
+  } else if (selectedDifficulty === 'medium') {
+    turns=0;
+    document.getElementById("turns").innerText = turns;
+
+    clearBoard();
+
+    removeAllChildren( document.getElementById("pieces"));
+    shufflePiece(pieces);
+    fillPiece(pieces);
+    console.log('Medium difficulty chosen');
+    console.log(pieces)
+
+
+  } else if (selectedDifficulty === 'hard') {
+        turns=0;
+        document.getElementById("turns").innerText = turns;
+        clearBoard();
+
+        removeAllChildren( document.getElementById("pieces"));
+        
+        shufflePiece(pieces);
+        
+        fillPiece(pieces);
+
+        console.log('Hard difficulty chosen');
+        console.log(pieces)
+        clickImagesRandomly();
+
+
+  }
+}
+
+
+
+
+
+
+
+
+
+
+
+const openModalButton = document.getElementById('openModalButton');
+const modal = document.getElementById('myModal');
+const closeButton = document.getElementsByClassName('close')[0];
+
+openModalButton.addEventListener('click', () => {
+  modal.style.display = 'block';
+});
+
+closeButton.addEventListener('click', () => {
+  modal.style.display = 'none';
+});
+
+
+
+
+const openModalButton2 = document.getElementById('openModalButton2');
+const modal2 = document.getElementById('myModal2');
+const closeButton2 = document.getElementsByClassName('close')[1];
+
+openModalButton2.addEventListener('click', () => {
+  modal2.style.display = 'block';
+});
+
+closeButton2.addEventListener('click', () => {
+  modal2.style.display = 'none';
+});
+
+function levelimage(){
+
+
+im = document.getElementById("levelImage")
+im.src= 'images/'+ level+'.jpg';
+im.style.width = "100%";
+
+}

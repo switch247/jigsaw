@@ -17,8 +17,9 @@
             <h2>Level <span id="level"></span></h2>
         </div>
         <br>
+
         <div id="board"></div>
-        
+
         <canvas id="canvas">
         </canvas>
 
@@ -26,9 +27,48 @@
 
             <h2>Moves: <span id="turns">0</span></h2>
         </div>
+        <br>
+        <div class="container">
+            <label for="difficulty-select">Choose Difficulty:</label>
+            <select id="difficulty-select">
+              <option value="easy">Easy</option>
+              <option value="medium">Medium</option>
+              <option value="hard">Hard</option>
+            </select>
+        </div>
+        <br>
         <div id="pieces"></div>
+        <br>
 
+        <button id="openModalButton">How to Play ?</button>
+        <button id="openModalButton2">Show Image</button>
+
+        <div id="myModal" class="modal">
+          <div class="modal-content">
+            <span class="close">&times;</span>
+            <h3>instructions</h3>
+            <ol class="instructions">
+                <li>Select a difficulty level by choosing the appropriate option.</li>
+                <li>The puzzle pieces will be automatically shuffled based on the selected difficulty level.</li>
+                <li>Drag and drop puzzle pieces from the side panel into the main puzzle area.</li>
+                <li>Double-click on a puzzle piece to rotate it.</li>
+                <li>Arrange the pieces in the main area to match the picture or pattern.</li>
+                <li>If needed, use the "Shuffle" button to rearrange the puzzle pieces.</li>
+                <li>Once you have solved the current puzzle, the next level will automatically be presented.</li>
+                <li>Repeat the above steps for each level until you complete all the levels.</li>
+                <li>Enjoy the satisfaction of completing the jigsaw puzzle!</li>
+              </ol>
+          </div>
+        </div>
+
+
+        <div id="myModal2" class="modal">
+            <div class="modal-content">
+              <span class="close">&times;</span>
+            <img  id="levelImage"  src="">
+            </div>
+          </div>
         <!-- <button onclick="popup()">test</button> -->
-    
+          
     </body>
 </html>
