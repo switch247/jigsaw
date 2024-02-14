@@ -2,7 +2,7 @@ var rows ;
 var columns;
 
 let pieces ;
-
+let rotationAngles = {};
 var level = 0;
 const levelLimit = 3;
 var currTile;
@@ -10,25 +10,42 @@ var otherTile;
 
 var turns = 0;
 
+const lev = document.getElementById("level");
+
+const canvas = document.querySelector("canvas");
+
+const ctx = canvas.getContext('2d');
 
 window.onload = async function() {
+    const board = document.createElement('div');
+    board.id = 'board';
+    //   canvas.style.position = 'relative';
+    canvas.appendChild(board);
+
    await initBoard();
 
 }
 
+
+
+
 async function initBoard() {
+     currTile =null;
+     otherTile = null;
+    rotationAngles = {};
+    lev.innerHTML=level;
     const gridInfo = await findGrid(level);
     rows = gridInfo.rows;
     columns = gridInfo.columns;
     // console.log(rows, columns);
-
+    var images = [];
     //initialize the rxc board
     for (let r = 0; r < rows; r++) {
         for (let c = 0; c < columns; c++) {
             //<img>
             let tile = document.createElement("img");
             tile.src = "images/blank.jpg";
-
+            images.push(tile);
             //DRAG FUNCTIONALITY
             tile.addEventListener("dragstart", dragStart); //click on image to drag
             tile.addEventListener("dragover", dragOver);   //drag an image
@@ -40,7 +57,12 @@ async function initBoard() {
             document.getElementById("board").append(tile);
         }
     }
-
+    images.forEach((image, index) => {
+        const imageId = `image_${index}`;
+        rotationAngles[imageId] = 0;
+        image.setAttribute('data-image-id', imageId);
+        image.addEventListener('dblclick', rotateImage);
+      });
     //pieces
     pieces = [];
 
@@ -51,6 +73,51 @@ async function initBoard() {
     // shufflePiece(pieces);
 
     fillPiece(pieces);
+
+
+    const board = document.getElementById('board');
+    const canvas = document.getElementById('canvas');
+    const ctx = canvas.getContext('2d');
+
+
+    const boardRect = board.getBoundingClientRect();
+    console.log(boardRect)
+    
+    canvas.style.left = boardRect.left +'px';
+    canvas.style.top = boardRect.top +'px';
+
+    canvas.width = boardRect.width;
+    canvas.height = boardRect.height;
+
+    // canvas.width = board.offsetWidth;
+    // canvas.height = board.offsetHeight;
+
+    // const firstChild = board.firstElementChild;
+    // const firstChildRect = firstChild.getBoundingClientRect();
+    // // const boardRect = board.getBoundingClientRect();
+    // const canvasLeft = firstChildRect.left - boardRect.left;
+    // const canvasTop = firstChildRect.top - boardRect.top;
+
+    // canvas.style.left = canvasLeft+'px';
+    // //  + 'px';
+    // canvas.style.top = canvasTop + 'px';
+    //  + 'px';
+
+    const cellWidth = canvas.width / columns;
+    const cellHeight = canvas.height / rows;
+
+    // Draw borders for each cell
+    ctx.strokeStyle = 'red';
+    ctx.lineWidth = 1;
+
+    for (let row = 0; row < rows; row++) {
+      for (let col = 0; col < columns; col++) {
+        const x = (col * cellWidth);
+        const y = (row * cellHeight) ;
+
+        ctx.strokeRect(x, y, cellWidth, cellHeight);
+      }
+    }
 }
 
 function fillPiece(pieces) {
@@ -118,7 +185,9 @@ function dragDrop() {
 }
 
 function dragEnd() {
-    if (currTile.src.includes("blank")) {
+    if (currTile.src.includes("blank") ||currTile===otherTile ) {
+        if (currTile===otherTile){
+            rotateImage(currTile);}
         return;
     }
     let currImg = currTile.src;
@@ -140,7 +209,12 @@ function dragEnd() {
 
 }
 
-
+function rotateImage(event) {
+    const image = event.target;
+    const imageId = image.getAttribute('data-image-id');
+    rotationAngles[imageId] += 90;
+    image.style.transform = `rotate(${rotationAngles[imageId]}deg)`;
+  }
 
 
 function checkWin() {
@@ -223,7 +297,7 @@ async function findGrid(level) {
         document.getElementById("board").style.gridTemplateColumns = gridTemplateColumns;
         document.getElementById("board").style.gridTemplateRows = gridTemplateRows;
         // console.log(`Total number of image files: ${imageFiles.length}`);
-        
+        // drawGrid('canvas', rows, columns, 81);
         return { rows, columns };
     } catch (error) {
         console.error('Error fetching folder content:', error);
@@ -232,8 +306,42 @@ async function findGrid(level) {
 }
 
 
+function drawGrid(canvasId, rows, columns, width) {
+    const canvas = document.getElementById(canvasId);
+    const ctx = canvas.getContext('2d');
+
+    // Calculate the size of each cell
+    const cellWidth = width / columns;
+    const cellHeight = width / rows;
+
+    // Set the canvas size based on the provided width
+    canvas.width = width;
+    canvas.height = width;
+
+    // Draw the grid
+    for (let row = 0; row < rows; row++) {
+      for (let col = 0; col < columns; col++) {
+        const x = col * cellWidth;
+        const y = row * cellHeight;
+
+        ctx.strokeStyle = 'black';
+        ctx.lineWidth = 1;
+        ctx.strokeRect(x, y, cellWidth, cellHeight);
+      }
+    }
+  }
+
+  // Generate a 5x5 grid with a width of 400 pixels
+  
+
+
 function popup(){
-    swal("Good Job", "You Cleared The Level!","success");
+    try {
+        
+        swal("Good Job", "You Cleared The Level!","success");
+    } catch (error) {
+        alert("Good Job You Cleared The Level! success")
+    }
 }
 
 

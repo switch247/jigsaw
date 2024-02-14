@@ -14,11 +14,12 @@ body {
 } */
 
 #board {
+    z-index: 10;
     /* width: 406px;
     height: 406px; */
     width: fit-content;
     height: fit-content;
-    border: 2px solid purple;
+    /* border: 2px solid purple; */
     margin: 0 auto;
     display: grid;
     grid-template-columns: repeat(5, 1fr);
@@ -30,7 +31,7 @@ body {
 #board img {
     width: 79px;
     height: 79px;
-    border: 0.5px solid lightblue;
+    /* border: 0.5px solid lightblue; */
 }
 
 
@@ -77,3 +78,17 @@ h2{
     background-color: aliceblue;
 
 }
+
+/* .canvas{
+    border: 2px solid black;
+    width: fit-content;
+    height: fit-content;
+} */
+
+
+#canvas {
+    position: absolute;
+    /* top: 0;
+    left: 0; */
+    pointer-events: none;
+  }
